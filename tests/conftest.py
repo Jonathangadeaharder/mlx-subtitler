@@ -1,7 +1,25 @@
 from __future__ import annotations
 
+import sys
+from unittest.mock import MagicMock
+
+for _mod in (
+    "mlx_whisper",
+    "mlx",
+    "mlx.core",
+    "spacy",
+    "torch",
+    "transformers",
+):
+    if _mod not in sys.modules:
+        sys.modules[_mod] = MagicMock()
+
 import pytest
 from mlx_subtitler.models import Segment
+
+collect_ignore = []
+if "mutmut" in sys.modules:
+    collect_ignore = ["test_cli.py", "test_e2e.py"]
 
 
 @pytest.fixture
